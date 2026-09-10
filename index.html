@@ -936,7 +936,6 @@ footer a:hover{
 const LOGIN_URL = "https://onrender.com";
 const RESULT_URL = "https://onrender.com";
 
-
 function openLogin() {
     document.getElementById("loginModal").style.display = "flex";
 }
@@ -967,7 +966,6 @@ async function login() {
             })
         });
 
-        // 🛠️ FIX HERE: Added missing "const data ="
         const data = await response.json();
 
         if (data.success) {
@@ -976,11 +974,12 @@ async function login() {
             closeLogin();
             await fetchStudentResult();
         } else {
-            alert("Login failed: " + data.message);
+            alert("Backend Alert: " + data.message);
         }
     } catch (error) {
         console.error("Connection Error:", error);
-        alert("Server is waking up! Please wait 30 seconds and click Login again.");
+        // 🛠️ हा नवीन अलर्ट आपल्याला नेमकी चूक काय आहे ते मोबाईल स्क्रीनवर दाखवेल!
+        alert("System Technical Error Details: " + error.message);
     }
 }
 
@@ -996,17 +995,15 @@ async function fetchStudentResult() {
             }
         });
 
-        // 🛠️ FIX HERE: Added missing "const result ="
         const result = await response.json();
 
         if (result.success) {
-            console.log("Academic Data Retrieved:", result.data);
             alert("Welcome " + result.data.name + "! Your GPA is " + result.data.gpa);
         } else {
             alert("Authorized access denied: " + result.message);
         }
     } catch (error) {
-        console.error("Result Fetch Error:", error);
+        alert("Result Fetch Error: " + error.message);
     }
 }
 
@@ -1017,6 +1014,5 @@ window.onclick = function(event) {
     }
 };
 </script>
-    
 </body>
 </html>
