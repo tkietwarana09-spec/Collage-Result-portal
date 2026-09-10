@@ -932,20 +932,23 @@ footer a:hover{
 </div>
 
 <script>
-// 🌐 Live Replit Backend Endpoints
-const LOGIN_URL = "https://replit.dev";
-const RESULT_URL = "https://replit.dev";
-
+// 🌐 Live Protected Render Backend Endpoints
+const LOGIN_URL = "https://onrender.com";
+const RESULT_URL = "https://onrender.com";
 
 function openLogin() {
     document.getElementById("loginModal").style.display = "flex";
+}
+
+function cancelLogin() {
+    closeLogin();
 }
 
 function closeLogin() {
     document.getElementById("loginModal").style.display = "none";
 }
 
-// 🔐 Secure login flow connected to Replit backend
+// 🔐 Secure login flow connected to Render server
 async function login() {
     let usernameInput = document.getElementById("username").value;
     let passwordInput = document.getElementById("password").value;
@@ -971,15 +974,19 @@ async function login() {
 
         if (data.success) {
             alert("Login successful!");
+            // Store the secure session token in browser local storage
             localStorage.setItem('studentToken', data.token); 
+            
             closeLogin();
+            
+            // Automatically fetch the secure marks data
             await fetchStudentResult();
         } else {
             alert("Login failed: " + data.message);
         }
     } catch (error) {
         console.error("Connection Error:", error);
-        alert("Unable to connect to the authentication server!");
+        alert("Server is waking up! Please wait 30 seconds and click Login again.");
     }
 }
 
@@ -998,8 +1005,10 @@ async function fetchStudentResult() {
         const result = await response.json();
 
         if (result.success) {
-            console.log("Academic Data Retrieved:", result.data);
+            console.log("Academic Data Retrieved Successfully:", result.data);
             alert("Welcome " + result.data.name + "! Your GPA is " + result.data.gpa);
+            
+            // TODO: Map result.data values to your HTML table tags to render marks visually
         } else {
             alert("Authorized access denied: " + result.message);
         }
@@ -1010,10 +1019,11 @@ async function fetchStudentResult() {
 
 window.onclick = function(event) {
     let modal = document.getElementById("loginModal");
-    if (event.target ===modal) {
+    if (event.target === modal) {
         closeLogin();
     }
 };
 </script>
+
 </body>
 </html>
