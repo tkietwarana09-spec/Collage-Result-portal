@@ -936,6 +936,7 @@ footer a:hover{
 const LOGIN_URL = "https://replit.dev";
 const RESULT_URL = "https://replit.dev";
 
+
 function openLogin() {
     document.getElementById("loginModal").style.display = "flex";
 }
@@ -971,11 +972,7 @@ async function login() {
         if (data.success) {
             alert("Login successful!");
             localStorage.setItem('studentToken', data.token); 
-            
-            // Close login screen after successful login
             closeLogin();
-            
-            // Automatically fetch the single user marks
             await fetchStudentResult();
         } else {
             alert("Login failed: " + data.message);
@@ -1003,8 +1000,6 @@ async function fetchStudentResult() {
         if (result.success) {
             console.log("Academic Data Retrieved:", result.data);
             alert("Welcome " + result.data.name + "! Your GPA is " + result.data.gpa);
-            
-            // TODO: Map result.data values to your table fields here to display marks
         } else {
             alert("Authorized access denied: " + result.message);
         }
@@ -1015,11 +1010,10 @@ async function fetchStudentResult() {
 
 window.onclick = function(event) {
     let modal = document.getElementById("loginModal");
-    if (event.target === modal) {
+    if (event.target ===modal) {
         closeLogin();
     }
 };
 </script>
-
 </body>
 </html>
